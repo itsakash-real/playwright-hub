@@ -1,0 +1,47 @@
+{
+  "name": "playwright-hub",
+  "version": "1.0.0",
+  "description": "Production-grade Playwright E2E test automation framework with POM, data-driven tests, parallel execution, Allure reporting, and auto GitHub Issue creation.",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:auth": "playwright test tests/auth/ --project=no-auth",
+    "test:e2e": "playwright test tests/e2e/ --project=chromium",
+    "test:shard": "playwright test --shard=$SHARD",
+    "report:generate": "node scripts/generate-report.js",
+    "report:open": "allure open allure-report",
+    "report:full": "npm run report:generate && npm run report:open",
+    "report:verify": "node scripts/verify-allure.js",
+    "report:ci": "npm run report:verify && npm run report:generate",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "format": "prettier --write \"**/*.{js,json,md,yml}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md,yml}\"",
+    "clean": "rimraf allure-results allure-report test-results playwright-report results.json failures.json",
+    "clean:auth": "rm -f .auth/user.json",
+    "clean:all": "npm run clean && npm run clean:auth"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@octokit/rest": "^21.0.0",
+    "@playwright/test": "^1.44.0",
+    "allure-commandline": "^2.41.0",
+    "allure-playwright": "^3.7.2",
+    "csv-parse": "^5.5.6",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-playwright": "^1.6.2",
+    "prettier": "^3.3.0",
+    "rimraf": "^6.1.3"
+  }
+}

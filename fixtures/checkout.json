@@ -1,0 +1,44 @@
+{
+  "valid": [
+    {
+      "id": "standard_us",
+      "firstName": "John",
+      "lastName": "Doe",
+      "zip": "12345",
+      "description": "Standard US address"
+    },
+    {
+      "id": "international",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "zip": "SW1A 1AA",
+      "description": "International postal code format"
+    }
+  ],
+  "invalid": [
+    {
+      "id": "missing_first_name",
+      "firstName": "",
+      "lastName": "Doe",
+      "zip": "12345",
+      "expectedError": "Error: First Name is required",
+      "description": "Missing first name triggers validation error"
+    },
+    {
+      "id": "missing_last_name",
+      "firstName": "John",
+      "lastName": "",
+      "zip": "12345",
+      "expectedError": "Error: Last Name is required",
+      "description": "Missing last name triggers validation error"
+    },
+    {
+      "id": "missing_zip",
+      "firstName": "John",
+      "lastName": "Doe",
+      "zip": "",
+      "expectedError": "Error: Postal Code is required",
+      "description": "Missing zip/postal code triggers validation error"
+    }
+  ]
+}

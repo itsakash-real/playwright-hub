@@ -1,0 +1,176 @@
+# path: .github/workflows/playwright.yml
+# ─────────────────────────────────────────────────────────────────
+# PlaywrightHub — PR Test Pipeline
+#
+# Triggers on every pull request to main or develop.
+# Runs tests across 4 parallel shards for speed.
+# Uploads merged Allure report as a downloadable artifact.
+# Creates GitHub Issues for any failing tests.
+# ─────────────────────────────────────────────────────────────────
+
+name: PR Tests
+
+on:
+  pull_request:
+    branches: [main, develop]
+  # Allow manual triggering from the GitHub Actions UI
+  workflow_dispatch:
+
+jobs:
+  # ── Job 1: Lint ────────────────────────────────────────────────
+  # Runs first, fast (~30s). Blocks the test run if code quality fails.
+  lint:
+    name: Lint & Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'  # Caches node_modules based on package-lock.json hash
+
+      - name: Install dependencies
+        run: npm ci  # 'ci' is stricter than 'install': uses exact lockfile versions
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Check Prettier formatting
+        run: npm run format:check
+
+  # ── Job 2: Test Shards ─────────────────────────────────────────
+  # Runs after lint passes. 4 parallel shards = 4 VMs running simultaneously.
+  test:
+    name: Test (Shard ${{ matrix.shard }}/${{ strategy.job-total }})
+    needs: lint  # Only run if lint passes
+    runs-on: ubuntu-latest
+
+    strategy:
+      # fail-fast: false means ALL shards run even if one fails.
+      # This gives us the complete picture of what's failing, not just the first failure.
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]  # Creates 4 parallel jobs
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Cache Playwright browser binaries.
+      # Key: based on OS + Playwright version (from package-lock.json).
+      # On cache hit: browsers load instantly (saves 200-400MB download).
+      # On cache miss: downloads and installs browsers, then caches them.
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
+      - name: Install Playwright browsers
+        # Only download browsers if the cache was missed.
+        # 'if: steps.playwright-cache.outputs.cache-hit != 'true''
+        # Without this, we'd always re-download even when cache exists.
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      # If cache hit, we still need system dependencies (fonts, libs).
+      # '--with-deps' above handles this when downloading. This handles cache hits.
+      - name: Install system dependencies only (cache hit)
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps
+
+      - name: Run Playwright tests (Shard ${{ matrix.shard }}/4)
+        run: npx playwright test --shard=${{ matrix.shard }}/4
+        env:
+          # Inject all secrets as environment variables.
+          # These are set in GitHub: Settings → Secrets → Repository secrets.
+          BASE_URL: ${{ secrets.BASE_URL || 'https://www.saucedemo.com' }}
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_PASSWORD: ${{ secrets.SAUCE_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # Note: GH_TOKEN not GITHUB_TOKEN (reserved)
+          GITHUB_OWNER: ${{ secrets.GITHUB_OWNER }}
+          GITHUB_REPO: ${{ secrets.GITHUB_REPO }}
+          CI: true  # This flag enables JSON reporter + 2 retries in playwright.config.js
+
+      # Upload this shard's Allure results as a named artifact.
+      # The 'if: always()' ensures this runs even if tests failed.
+      # Without 'always()', a test failure would prevent artifact upload,
+      # and we'd lose our Allure data.
+      - name: Upload Allure results (Shard ${{ matrix.shard }})
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-shard-${{ matrix.shard }}
+          path: allure-results/
+          retention-days: 7  # Keep for 7 days (enough for PR review cycles)
+
+  # ── Job 3: Merge Reports ───────────────────────────────────────
+  # Downloads all 4 shard results and merges them into one Allure report.
+  merge-reports:
+    name: Merge Allure Reports
+    needs: test  # Runs after ALL test shards complete
+    runs-on: ubuntu-latest
+    if: always()  # Run even if some shards failed
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Download ALL shard artifacts into a single directory.
+      # Each shard uploaded 'allure-results-shard-N'.
+      # This step merges them all into 'allure-results/'.
+      - name: Download all Allure results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-shard-*
+          path: allure-results/
+          merge-multiple: true  # Merge into a single folder, not separate subdirs
+
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline
+
+      - name: Generate merged Allure report
+        run: allure generate allure-results -o allure-report --clean
+
+      - name: Upload merged Allure report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 30  # Keep reports for 30 days for historical comparison
+
+      # Write a markdown summary to the GitHub Actions job summary.
+      # This appears on the Actions run page without needing to download anything.
+      - name: Post results summary
+        if: always()
+        run: |
+          echo "## Playwright Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | Details |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 📊 Report | Download the \`allure-report\` artifact above |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔀 Shards | 4 parallel shards used |" >> $GITHUB_STEP_SUMMARY

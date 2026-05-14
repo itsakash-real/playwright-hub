@@ -1,0 +1,55 @@
+
+[globalSetup] ─────────────────────────────────────
+[globalSetup] Starting pre-suite setup...
+[globalSetup] Environment validation passed ✓
+[globalSetup] Auth state is fresh (< 60 min old) — reusing.
+[globalSetup] Verifying saved auth state...
+[globalSetup] Auth state verification passed ✓
+[globalSetup] ─────────────────────────────────────
+
+
+Running 33 tests using 2 workers
+
+  ✓   2 [chromium] › tests\cart\cart.spec.js:26:3 › Cart: Item Management › should start with an empty cart (4.1s)
+  ✓   1 [chromium] › tests\cart\cart.spec.js:50:3 › Cart: Item Management › should display added item with correct name and price in cart (5.0s)
+  ✓   4 [chromium] › tests\cart\cart.spec.js:124:3 › Cart: Item Management › should remove an item from the cart page (2.5s)
+  ✓   3 [chromium] › tests\cart\cart.spec.js:91:3 › Cart: Item Management › should display all added items when multiple are added (3.4s)
+  ✓   5 [chromium] › tests\cart\cart.spec.js:157:3 › Cart: Item Management › should return to inventory when Continue Shopping is clicked (3.2s)
+  ✓   6 [chromium] › tests\cart\cart.spec.js:180:3 › Cart: Item Management › should navigate to checkout when Checkout button is clicked (3.2s)
+  ✓   7 [chromium] › tests\checkout\checkout.spec.js:38:3 › Checkout: Form Validation & Navigation › should proceed to checkout overview with valid information (2.9s)
+  ✓   8 [chromium] › tests\checkout\checkout.spec.js:62:5 › Checkout: Form Validation & Navigation › should show validation error: missing_first_name (3.1s)
+  ✓   9 [chromium] › tests\checkout\checkout.spec.js:62:5 › Checkout: Form Validation & Navigation › should show validation error: missing_last_name (6.3s)
+  ✓  10 [chromium] › tests\checkout\checkout.spec.js:62:5 › Checkout: Form Validation & Navigation › should show validation error: missing_zip (6.9s)
+  ✓  11 [chromium] › tests\checkout\checkout.spec.js:91:3 › Checkout: Form Validation & Navigation › should display correct items in order overview on step 2 (4.2s)
+  ✓  12 [chromium] › tests\checkout\checkout.spec.js:130:3 › Checkout: Form Validation & Navigation › should return to cart when Cancel is clicked on step 1 (3.7s)
+  ✓  13 [chromium] › tests\checkout\checkout.spec.js:145:3 › Checkout: Form Validation & Navigation › should return to inventory when Cancel is clicked on step 2 (3.1s)
+  ✓  14 [chromium] › tests\e2e\happyPath.spec.js:30:3 › E2E: Happy Path User Journeys › should complete full purchase flow with single item (3.3s)
+  ✓  15 [chromium] › tests\e2e\happyPath.spec.js:120:3 › E2E: Happy Path User Journeys › should complete purchase with multiple items and verify total price (6.7s)
+  ✓  16 [chromium] › tests\e2e\happyPath.spec.js:194:3 › E2E: Happy Path User Journeys › should sort products then add cheapest item and complete purchase (6.7s)
+  ✓  17 [chromium] › tests\inventory\inventory.spec.js:35:3 › Inventory: Product Listing & Cart Management › should display all 6 products on inventory page (4.6s)
+  ✓  18 [chromium] › tests\inventory\inventory.spec.js:67:3 › Inventory: Product Listing & Cart Management › should display correct prices for all products (4.5s)
+  ✓  19 [chromium] › tests\inventory\inventory.spec.js:94:3 › Inventory: Product Listing & Cart Management › should display products sorted by name A to Z by default (3.5s)
+  ✓  20 [chromium] › tests\inventory\inventory.spec.js:127:3 › Inventory: Product Listing & Cart Management › should sort products by name Z to A (3.6s)
+  ✓  21 [chromium] › tests\inventory\inventory.spec.js:158:3 › Inventory: Product Listing & Cart Management › should sort products by price low to high (3.7s)
+  ✓  22 [chromium] › tests\inventory\inventory.spec.js:187:3 › Inventory: Product Listing & Cart Management › should sort products by price high to low (3.5s)
+  ✓  24 [chromium] › tests\inventory\inventory.spec.js:249:3 › Inventory: Product Listing & Cart Management › should add multiple items and remove one from inventory page (3.0s)
+  ✓  23 [chromium] › tests\inventory\inventory.spec.js:215:3 › Inventory: Product Listing & Cart Management › should add a single item to cart and update badge (3.2s)
+  ✓  25 [no-auth] › tests\auth\login.spec.js:35:3 › Authentication: Login › should login successfully with standard_user (3.8s)
+  ✓  26 [no-auth] › tests\auth\login.spec.js:66:3 › Authentication: Login › should show error for locked_out_user (3.0s)
+  ✓  28 [no-auth] › tests\auth\login.spec.js:137:5 › Authentication: Login › should show error for invalid login: wrong_password (2.2s)
+  ✓  29 [no-auth] › tests\auth\login.spec.js:137:5 › Authentication: Login › should show error for invalid login: wrong_username (3.8s)
+  ✓  27 [no-auth] › tests\auth\login.spec.js:101:3 › Authentication: Login › should login with performance_glitch_user within timeout (8.9s)
+  ✓  30 [no-auth] › tests\auth\login.spec.js:137:5 › Authentication: Login › should show error for invalid login: empty_username (2.6s)
+  ✓  31 [no-auth] › tests\auth\login.spec.js:137:5 › Authentication: Login › should show error for invalid login: empty_password (2.2s)
+  ✓  32 [no-auth] › tests\auth\login.spec.js:137:5 › Authentication: Login › should show error for invalid login: empty_both (2.2s)
+  ✓  33 [no-auth] › tests\auth\login.spec.js:172:3 › Authentication: Login › should dismiss error message when X is clicked (1.5s)
+
+[globalTeardown] ──────────────────────────────────
+[globalTeardown] Running post-suite teardown...
+[globalTeardown] results.json not found at: C:\Users\akash\playwright-hub\results.json
+[globalTeardown] Was the JSON reporter active? (CI=true required)
+[globalTeardown] No results to process. Exiting teardown.
+[globalTeardown] ──────────────────────────────────
+
+
+  33 passed (1.3m)

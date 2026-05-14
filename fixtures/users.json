@@ -1,0 +1,72 @@
+{
+  "users": [
+    {
+      "id": "standard",
+      "username": "standard_user",
+      "password": "secret_sauce",
+      "role": "standard",
+      "expectedBehavior": "normal",
+      "expectedError": null,
+      "description": "Primary test user — full access, no quirks"
+    },
+    {
+      "id": "locked_out",
+      "username": "locked_out_user",
+      "password": "secret_sauce",
+      "role": "locked",
+      "expectedBehavior": "blocked",
+      "expectedError": "Epic sadface: Sorry, this user has been locked out.",
+      "description": "Account is blocked — login should be rejected"
+    },
+    {
+      "id": "problem",
+      "username": "problem_user",
+      "password": "secret_sauce",
+      "role": "problem",
+      "expectedBehavior": "broken_ui",
+      "expectedError": null,
+      "description": "Logs in successfully but UI has intentional glitches"
+    },
+    {
+      "id": "performance_glitch",
+      "username": "performance_glitch_user",
+      "password": "secret_sauce",
+      "role": "performance",
+      "expectedBehavior": "slow",
+      "expectedError": null,
+      "description": "Login takes 5+ seconds — tests performance thresholds"
+    }
+  ],
+  "invalidCredentials": [
+    {
+      "id": "wrong_password",
+      "username": "standard_user",
+      "password": "wrong_password",
+      "expectedError": "Epic sadface: Username and password do not match any user in this service"
+    },
+    {
+      "id": "wrong_username",
+      "username": "not_a_real_user",
+      "password": "secret_sauce",
+      "expectedError": "Epic sadface: Username and password do not match any user in this service"
+    },
+    {
+      "id": "empty_username",
+      "username": "",
+      "password": "secret_sauce",
+      "expectedError": "Epic sadface: Username is required"
+    },
+    {
+      "id": "empty_password",
+      "username": "standard_user",
+      "password": "",
+      "expectedError": "Epic sadface: Password is required"
+    },
+    {
+      "id": "empty_both",
+      "username": "",
+      "password": "",
+      "expectedError": "Epic sadface: Username is required"
+    }
+  ]
+}

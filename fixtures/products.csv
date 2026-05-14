@@ -1,0 +1,7 @@
+name,price,sortPriorityAZ,sortPriorityZA,sortPriorityPriceLow,sortPriorityPriceHigh
+Sauce Labs Backpack,29.99,1,6,3,4
+Sauce Labs Bike Light,9.99,2,5,1,6
+Sauce Labs Bolt T-Shirt,15.99,3,4,2,5
+Sauce Labs Fleece Jacket,49.99,4,3,5,2
+Sauce Labs Onesie,7.99,5,2,0,0
+Test.allTheThings() T-Shirt (Red),15.99,6,1,2,5

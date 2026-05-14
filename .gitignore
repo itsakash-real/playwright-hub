@@ -1,0 +1,18 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+# path: .gitignore
+node_modules/
+.env
+.auth/
+allure-results/
+allure-report/
+test-results/
+playwright-report/
+results.json
+*.zip
