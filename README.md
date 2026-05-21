@@ -119,7 +119,7 @@ Session tokens are generated once during global setup and injected into browser 
 
 ### 1. Clone and Install
 ```bash
-git clone https://github.com/YOUR_USERNAME/playwright-hub.git
+git clone https://github.com/itsakash-real/playwright-hub.git
 cd playwright-hub
 npm install
 npx playwright install
@@ -184,8 +184,8 @@ npm run test:e2e
 
 **PlaywrightHub** is engineered to establish production-grade continuous testing standards.
 
-[![GitHub](https://img.shields.io/badge/GitHub-Profile-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/YOUR_USERNAME)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/YOUR_PROFILE)
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/itsakash-real)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/akmry/)
 
 <div align="center">
 
