@@ -2,11 +2,9 @@
 
 ---
 
-## 🎬 Demo
-
+## 🎥 Demo
 [![PlaywrightHub Demo](https://img.youtube.com/vi/gvOakIvGHL4/maxresdefault.jpg)](https://youtu.be/gvOakIvGHL4)
 
----
 
 ## 📌 Overview
 
@@ -78,10 +76,9 @@ playwright-hub/
 
 ## 📊 Test Reports
 
-> *(Add your Allure report screenshot and CI execution screenshot here)*
+![Test Report](image.png)
 
-![Allure Report Screenshot](#)
-![CI Execution Screenshot](#)
+![Allure Report](image-copy.png)
 
 ---
 
