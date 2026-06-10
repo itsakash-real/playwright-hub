@@ -4,7 +4,7 @@
 
 ## 🎬 Demo
 
-https://github.com/user-attachments/assets/20260610-1113-42.2614845.mp4
+[![PlaywrightHub Demo](https://img.youtube.com/vi/gvOakIvGHL4/maxresdefault.jpg)](https://youtu.be/gvOakIvGHL4)
 
 ---
 
