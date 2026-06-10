@@ -78,8 +78,6 @@ playwright-hub/
 
 ![Test Report](image.png)
 
-![Allure Report](image-copy.png)
-
 ---
 
 ## ▶️ How to Run
